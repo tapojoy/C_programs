@@ -44,28 +44,27 @@ void quicksort(int arr[], int i, int j, int n, int level) {
 
 
 int partition(int arr[], int i, int j, int n) {
-    int start = i;
-    int p = 0, q = 0;
-    int x = arr[start];
-    int b1[n], b2[n];
     int l;
-    while (i<=j) {
-        if (arr[i]>x){
-            b1[p++] = arr[i++];
+    int k = i+1;
+    int length = j - i;
+    int p = 0, q = length;
+    int x = arr[i];
+    int b[length];
+    while (k<=j) {
+        if (arr[k]>x){
+            b[p++] = arr[k++];
         }
         else {
-            b2[q++] = arr[i++];
+            b[q--] = arr[k++];
         }
     }
-    for (i = 0; i<p; i++){
-        arr[start+i] = b1[i];
+    b[q] = x;
+    l = i + q;
+    for (k = 0; k<=length; k++){
+        arr[i+k] = b[k];
     }
-    for (i = 0; i<q; i++){
-        arr[start+p+i] = b2[i];
-    }
-    l = start + p;
     verbose("partially_sorted_array:", arr, n);
-    verbose2("partition completed:", start, j, n, p, q, l);
+    verbose2("partition completed:", i, j, n, p, q, l);
     return l;
 }
 
