@@ -1,5 +1,7 @@
 #include "stdio.h"
 
+void swap(int *, int *);
+
 int main() {
     int n, i, j, temp;
     printf("Enter number of elements :: ");
@@ -12,13 +14,14 @@ int main() {
 
     for (i = 0; i < n-1; i++) {
     	for (j = i+1; j < n; j++) {
-    	    //pointers can be used to access the content this way too
-		    if (*(data+i)<*(data+j)) {
-		        temp = *(data + i);
-		        *(data + i) = *(data+j);
-		        *(data+j) = temp;
-	        }
-	    }
+            if (*(data+i)<*(data+j)) {
+                //temp = *(data + i);
+                //*(data + i) = *(data+j);
+                //*(data+j) = temp;
+                //addresses can be passed to the function this way
+                swap((data+i),(data+j));
+            }
+        }
     }
 
     printf("The sorted numbers are :: ");
@@ -28,3 +31,10 @@ int main() {
     printf("\n");
 }
 
+
+//swap function is defined in the same way
+void swap(int *i, int *j){
+    int temp = *i;
+    *i = *j;
+    *j = temp;
+}
