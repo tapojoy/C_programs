@@ -1,17 +1,17 @@
 #include "stdio.h"
 
-void sort(int [], int);
+void sort(int *, int);
 
 int main() {
     int i, n;
     printf("Enter number of elements :: ");
     scanf("%d",&n);
-    int data[n]; //array declaration
+    int data[n];
     printf("Enter the numbers :: ");
     for (i = 0; i<n; i++) {
 	    scanf("%d", data+i);
     }
-    //array passing
+
     sort(data,n);
 
     printf("The sorted numbers are :: ");
@@ -21,8 +21,11 @@ int main() {
     printf("\n");
 }
 
-//arrays can be passed and pointers can be used for operations
-void sort(int arr[], int n) {
+
+// "pointer to an array" definition of function parameters
+// int *arr means the content of arr is an int
+// and that is good enough for the operations done in this function
+void sort(int *arr, int n) {
     int i, j, temp;
     for (i = 0; i < n-1; i++) {
     	for (j = i+1; j < n; j++) {
