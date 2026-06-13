@@ -1,42 +1,45 @@
 #include "stdio.h"
 
 typedef struct {
-    float x;
-    float y;
+    float real;
+    float imag;
 } complex;
 
-void complex_add(complex *,complex *,complex *);
+complex add_complex(complex, complex);
+void read_complex(complex *);
+void print_complex(complex);
+
+// to return a user defined type
+// typedef is used
+// and function declarations are to be done
+// in the beginning eg. before main function is defined
+// these functions can be defined later after the main
+// function definition
 
 int main() {
     complex c1, c2, c;
-    printf("Enter real and imaginary part of 1st number:: ");
-    scanf("%f%f",&c1.x,&c1.y);
-    
-    printf("Enter real and imaginary part of 2nd number:: ");
-    scanf("%f%f",&c2.x,&c2.y);
-    
-    complex_add(&c1, &c2, &c);
-    // passing the address of c1 and c2 is not required
-    // as only c requires call by value
-    // but it works  
-            
-    printf(
-        "Sum of %5.2f + (%5.2fi) and %5.2f + (%5.2fi) = %5.2f + (%5.2fi)\n",
-        c1.x,
-        c1.y,
-        c2.x,
-        c2.y,
-        c.x,
-        c.y
-    );
+    read_complex(&c1);
+    read_complex(&c2);
+    c = add_complex(c1,c2);
+    printf("c1 + c2 = ");
+    print_complex(c);
         
     printf("\n");
 }
 
-void complex_add(complex *c1, complex *c2, complex *c){
-    // using '->' is required in lieu of '.' when addresses are passed
-    // as in case of call by value
-    c->x = c1->x+c2->x;
-    c->y = c1->y+c2->y;
+complex add_complex(complex a, complex b) {
+    complex c;
+    c.real = a.real + b.real;
+    c.imag = a.imag + b.imag;
+    return c;
+}
+
+void read_complex(complex *var) {
+    printf("Enter the real and the imaginary parts :: ");
+    scanf("%f%f", &(var->real), &(var->imag));
+}
+
+void print_complex(complex var) {
+    printf("%5.2f + (%5.2fi)", var.real, var.imag);
 }
 
