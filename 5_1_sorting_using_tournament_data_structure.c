@@ -8,6 +8,7 @@ int get_max(int, int);
 int get_min(int, int);
 void verbose(char [], int [], int);
 void verbose2(char [], int, int, int, int, int);
+void fill_with_zeroes(int [], int);
 
 int main(){
     int i, n, m, num, count = 0;
@@ -23,6 +24,9 @@ int main(){
     int sorted[n];
     int min_arr[min_m];
     printf("n = %d, m = %d\n\n",n, m);
+    fill_with_zeroes(arr, m);
+    fill_with_zeroes(sorted, n);
+    fill_with_zeroes(min_arr, min_m);
     
     printf("Enter the numbers :: \n");
     for(i = n; i<=m; i++){
@@ -33,6 +37,8 @@ int main(){
 
     max = build_tournament(arr, m, min_arr, min_m, &count);
     min = get_arr_min(min_arr, n, min_m, &count, &odd);
+    printf("Tentative count :: %d, 2(n-1) = %d\n", count, (2*(n-1)));
+    printf("\nmax = %d, min = %d\n", max, min);
     
     int index = 1;
     int ptr;
@@ -42,22 +48,12 @@ int main(){
         ptr = insert_low(arr, m, max, low, &count);
         max = update_tournament(arr, m, ptr, &count);
         sorted[++index] = max;
-        printf("\nsorted:\n");
+        printf("\nsorted: max = %d, min = %d\n", max, min);
         verbose("sorted", sorted, index);
     }
     printf("Maximum = %d\n", sorted[1]);
     printf("Minimum = %d\n", sorted[index]);
-    /*
-    if(odd == 0){
-        printf("3n/2-2 = %d\n", (((3*n)/2)-2));
-    }
-    else{
-        if(odd == 1){
-            printf("3(n-1)/2 = %d\n", ((3*(n-1))/2) );
-        }
-    }
-    */
-    printf("n(n+1)/2 = %d\n", ((n*(n+1))/2));
+    printf("n(n-1)/2 = %d\n", ((n*(n-1))/2));
     printf("Count = %d\n", count);
     printf("\n");
 }
@@ -117,19 +113,6 @@ int insert_low(int arr[], int m, int max, int low, int *count){
 
 
 int update_tournament(int arr[], int m, int ptr, int *count){
-    /*
-    for(int i=m; i>1; i=i-2){
-        *count = *count + 1; if (arr[i]>arr[i-1]) {    
-            arr[i/2] = arr[i];
-        }
-        else {
-            arr[i/2] = arr[i-1];
-        }
-        verbose("update_tournament", arr, m);
-    }
-    printf("\ncheck : %d, m = %d, ptr = %d\n",arr[1], m, ptr);
-    return arr[1];
-    */
     int ptr1, ptr2;
     
     while (ptr != 1) {
@@ -142,18 +125,9 @@ int update_tournament(int arr[], int m, int ptr, int *count){
             ptr2 = ptr;
         }
         ptr = ptr/2;
-        /*
-        *count = *count + 1; if (arr[ptr1]>arr[ptr2]) {
-            arr[ptr] = arr[ptr1];
-        }
-        else {
-            arr[ptr] = arr[ptr2];
-        }
-        */
         *count = *count + 1; arr[ptr] = get_max(arr[ptr1], arr[ptr2]);
         verbose("update_tournament", arr, m);
     }
-    printf("\ncheck : %d, m = %d, ptr = %d\n",arr[1], m, ptr);
     return arr[1];
 }
 
@@ -169,11 +143,20 @@ int get_arr_min(int min_arr[], int n, int min_m, int *count, int *odd){
     }
     p = p + 1;
     int temp_min = min;
+    /*
     for (int i = p; i <= min_m; i = i + 2){
         *count = *count + 1; 
         temp_min = get_min(min_arr[p], min_arr[p+1]);
         *count = *count + 1; 
         min = get_min(temp_min, min);
+    }
+    */
+    while (p <= min_m){
+        *count = *count + 1; 
+        temp_min = get_min(min_arr[p], min_arr[p+1]);
+        *count = *count + 1; 
+        min = get_min(temp_min, min);
+        p = p + 2;
     }
     return min;
 }
@@ -210,5 +193,12 @@ void verbose2(char func_name[], int ip, int n1, int n2, int cp, int np){
     printf("cur pointer = %d ", cp);
     printf("next pointer = %d ", np);
     printf("\n");
+}
+
+void fill_with_zeroes(int arr[], int m){
+    for(int i = 0; i <= m ; i++){
+        arr[i] = 0;
+    }
+    verbose("fill with zeroes", arr, m);
 }
 
